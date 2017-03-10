@@ -1,0 +1,30 @@
+(define (product term a next b)
+  (if (> a b)
+      1
+      (* (term a)
+         (product term (next a) next b))))
+
+(define (factorial n)
+  (define (term x) x)
+  (define (next x) (+ x 1))
+  (product term 1 next n))
+
+(factorial 3)
+
+(factorial 10)
+
+
+(define (odd? x)
+  (= (remainder x 2) 1))
+
+(define (approx-pi n)
+  (define (term x)
+    (if (odd? x)
+        (/ (+ x 1) (+ x 2))
+        (/ (+ x 2) (+ x 1))))
+  (define (next x) (+ x 1))
+  (exact->inexact (* 4 (product term 1 next n))))
+
+(approx-pi 10)
+(approx-pi 100)
+(approx-pi 1000)

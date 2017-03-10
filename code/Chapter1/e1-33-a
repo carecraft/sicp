@@ -1,0 +1,27 @@
+(define (accumulate combiner null-value term a next b valid?)
+  (define (iter x result)
+    (if (> x b)
+        result
+        (iter (next x)
+              (if (valid? x)
+                  (combiner result (term x))
+                  result))))
+  (iter a null-value))
+
+(define (square x) (* x x))
+
+(define (my-next x) (+ x 1))
+
+(define (prime? n)
+  (define (divides? a b) (= (remainder b a) 0))
+  (define (find-divisor n test-divisor)
+    (cond ((> (square test-divisor) n) n)
+          ((divides? test-divisor n) test-divisor)
+          (else (find-divisor n (+ test-divisor 1)))))
+  (define (smallest-divisor n) (find-divisor n 2))
+  (= n (smallest-divisor n)))
+
+(define (sum-square-prime a b)
+  (accumulate + 0 square a my-next b prime?))
+
+(sum-square-prime 1 10)
