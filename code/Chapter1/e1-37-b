@@ -1,0 +1,33 @@
+(define tolerance 0.0001)
+(define gold-ratio 1.6180)
+
+(define (cont-frac n d k)
+  (define (cf-iter i result)
+    (if (= i 0)
+        result
+        (cf-iter (- i 1)
+                 (/ (n i)
+                    (+ (d i) result)))))
+  (cf-iter (- k 1) (/ (n k) (d k))))
+
+(define (compute-golden-ratio k)
+  (+ 1
+     (cont-frac (lambda (i) 1.0)
+                (lambda (i) 1.0)
+                k)))
+
+(define (search-gold-ratio first-guess)
+  (define (close-enough? x)
+    (< (abs (- x gold-ratio)) tolerance))
+  (define (search x)
+    (let ((temp (compute-golden-ratio x)))
+      (newline)
+      (display x)
+      (display " derive ")
+      (display temp)
+      (if (close-enough? temp)
+          temp
+          (search (+ x 1)))))
+  (search first-guess))
+
+(search-gold-ratio 1)

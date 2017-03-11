@@ -6,20 +6,20 @@
                     (accumulate combiner null-value term (next a) next b valid?))
           (accumulate combiner null-value term (next a) next b valid?))))
 
-(define (square x) (* x x))
+(define (gcd a b)
+  (if (= b 0)
+      a
+      (gcd b (remainder a b))))
+
+(define (my-term x) x)
 
 (define (my-next x) (+ x 1))
 
-(define (prime? n)
-  (define (divides? a b) (= (remainder b a) 0))
-  (define (find-divisor n test-divisor)
-    (cond ((> (square test-divisor) n) n)
-          ((divides? test-divisor n) test-divisor)
-          (else (find-divisor n (+ test-divisor 1)))))
-  (define (smallest-divisor n) (find-divisor n 2))
-  (= n (smallest-divisor n)))
+(define (product-prime-to-n n)
+  (define (co-prime? x)
+    (= (gcd x n) 1))
+  (accumulate * 1 my-term 1 my-next n co-prime?))
 
-(define (sum-square-prime a b)
-  (accumulate + 0 square a my-next b prime?))
 
-(sum-square-prime 1 10)
+
+(product-prime-to-n 10)
