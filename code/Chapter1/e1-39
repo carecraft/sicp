@@ -1,0 +1,18 @@
+(define (cont-frac n d k)
+  (define (cf i)
+    (if (= i k)
+        (/ (n i) (d i))
+        (/ (n i) (+ (d i) (cf (+ i 1))))))
+  (cf 1))
+
+(define (tan-cf x k)
+  (define (next-n i)
+    (if (= i 1)
+        x
+        (- 0 (square x))))
+  (define (next-d i)
+    (- (* 2.0 i) 1.0))
+  (cont-frac next-n next-d k))
+
+(tan 45)
+(tan-cf 45 1000)
