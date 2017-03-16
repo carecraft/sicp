@@ -17,17 +17,15 @@
   (cdr p))
 
 ;;;;;;;;
-(define (make-rectangle seg1 seg2)
-  (let ((x (abs (- (x-point (end-segment seg1))
-                   (x-point (start-segment seg1)))))
-        (y (abs (- (y-point (end-segment seg2))
-                   (y-point (start-segment seg2))))))
-    (cons x y)))
+(define (make-rectangle left-bottom-point right-top-point)
+  (cons left-bottom-point right-top-point))
 
-(define (length-rectangle rect)
-  (car rect))
-(define (width-rectangle rect)
-  (cdr rect))
+(define (length-rectangle r)
+  (- (x-point (cdr r))
+     (x-point (car r))))
+(define (width-rectangle r)
+  (- (y-point (cdr r))
+     (y-point (car r))))
 ;;;;
 (define (peri-rectangle rect)
   (* 2 (+ (length-rectangle rect)
@@ -37,7 +35,6 @@
      (width-rectangle rect)))
 
 ;;;;;
-(define rect1 (make-rectangle (make-segment (make-point 1 2) (make-point 5 2))
-                              (make-segment (make-point 1 2) (make-point 1 8))))
+(define rect1 (make-rectangle (make-point 1 2) (make-point 5 8)))
 (peri-rectangle rect1)
 (area-rectangle rect1)
